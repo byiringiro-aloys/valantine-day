@@ -3,188 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Valentine's Day</title>
-        <style>
-            body {
-                background: #000 url('https://dl.dropbox.com/scl/fi/2becduqibkn3vd9nqaqin/7f1126e6-22b3-4714-a7aa-d6b5a5736f7a.jpeg?rlkey=wlqan2hu2ej6silpfvq7j9erg&st=3abokvy1&dl=1')
-                no-repeat center center / cover;
-                width: 100vw;
-                height: 100vh;
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
+    <title>Clean Modern Website</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        /* Header */
+        header {
+            background-color: #4c6ef5;
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        nav {
+            background-color: #3b5bdb;
+            padding: 1rem 0;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+        
+        nav li {
+            margin: 0 1rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        nav a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Main content */
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #4c6ef5;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #3b5bdb;
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            flex: 1 1 300px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: #4c6ef5;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #343a40;
+            color: #f8f9fa;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
             }
-            canvas {
-                position: absolute;
-                top: 0;
-                left: 0;
+            
+            nav li {
+                margin: 0.5rem 0;
             }
-            #infoButton {
-                position: absolute;
-                top: 10px;
-                left: 10px;
-                background: rgba(255, 255, 255, 0.2);
-                color: white;
-                border: none;
-                padding: 10px 15px;
-                border-radius: 50%;
-                font-size: 20px;
-                cursor: pointer;
-                user-select: none;
+            
+            .hero h2 {
+                font-size: 2rem;
             }
-            #infoModal {
-                display: none;
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: rgba(0, 0, 0, 0.8);
-                color: white;
-                padding: 20px;
-                border-radius: 10px;
-                text-align: center;
-                width: 80%;
-                max-width: 400px;
-                user-select: none;
-            }
-            #closeModal {
-                margin-top: 10px;
-                padding: 8px 12px;
-                background: white;
-                color: black;
-                border: none;
-                cursor: pointer;
-                border-radius: 5px;
-                user-select: none;
-            }
-        </style>
-    </head>
-    <body>
-        <canvas id="rainCanvas"></canvas>
-        <canvas id="canvas"></canvas>
-        <button id="infoButton">&#9432;</button>
-        <div id="infoModal">
-            <p><strong>Valentine's Day</strong></p>
-            <p> The origins of the day are steeped in history, with its roots tracing back to ancient Rome, yet it has evolved into a global occasion of expressing care through cards, gifts, and gestures. Whether it's the exchange of sweet messages, sharing chocolates, or simply spending quality time with loved ones, Valentine's Day is a reminder to appreciate the connections that bring joy and warmth to our lives.</p>
-            <button id="closeModal">Close</button>
-        </div>
-        <script>
-            const canvas = document.getElementById("canvas");
-            const ctx = canvas.getContext("2d");
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            const rainCanvas = document.getElementById("rainCanvas");
-            const rainCtx = rainCanvas.getContext("2d");
-            rainCanvas.width = window.innerWidth;
-            rainCanvas.height = window.innerHeight;
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                rainCanvas.width = window.innerWidth;
-                rainCanvas.height = window.innerHeight;
-            }
-            window.addEventListener("resize", resizeCanvas);
-            let boids = [];
-            const numBoids = 50;
-            function random(min, max) {
-                return Math.random() * (max - min) + min;
-            }
-            function drawHeart(ctx, x, y, size, color) {
-                ctx.fillStyle = color;
-                ctx.beginPath();
-                ctx.moveTo(x, y + size / 4);
-                ctx.bezierCurveTo(x - size, y - size / 2, x - size * 1.2, y + size / 3, x, y + size);
-                ctx.bezierCurveTo(x + size * 1.2, y + size / 3, x + size, y - size / 2, x, y + size / 4);
-                ctx.fill();
-            }
-            class Boid {
-                constructor(x, y) {
-                    this.x = x;
-                    this.y = y;
-                    this.vx = random(-2, 2);
-                    this.vy = random(-2, 2);
-                    this.size = random(8, 16);
-                    this.color = `hsl(${random(0, 360)}, 100%, 60%)`;
-                }
-                move() {
-                    this.x += this.vx;
-                    this.y += this.vy;
-                    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-                }
-                draw() {
-                    drawHeart(ctx, this.x, this.y, this.size, this.color);
-                }
-            }
-            for (let i = 0; i < numBoids; i++) {
-                boids.push(new Boid(random(0, canvas.width), random(0, canvas.height)));
-            }
-            function update() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                boids.forEach(boid => {
-                    boid.move();
-                    boid.draw();
-                });
-                requestAnimationFrame(update);
-            }
-            update();
-            canvas.addEventListener("mousemove", (event) => {
-            handleInteraction(event.clientX, event.clientY);
-            });
-            canvas.addEventListener("touchmove", (event) => {
-            let touch = event.touches[0];
-            handleInteraction(touch.clientX, touch.clientY);
-            });
-            function handleInteraction(x, y) {
-            boids.forEach(boid => {
-            let dx = boid.x - x;
-            let dy = boid.y - y;
-            let dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 100) {
-            let angle = Math.atan2(dy, dx);
-            boid.vx += Math.cos(angle) * 1.5;
-            boid.vy += Math.sin(angle) * 1.5;
-                   }
-               });
-            }
-            class Raindrop {
-                constructor() {
-                    this.x = random(0, rainCanvas.width);
-                    this.y = random(0, rainCanvas.height);
-                    this.vy = random(2, 5);
-                    this.length = random(10, 20);
-                }
-                fall() {
-                    this.y += this.vy;
-                    if (this.y > rainCanvas.height) {
-                        this.y = -this.length;
-                        this.x = random(0, rainCanvas.width);
-                    }
-                }
-                draw() {
-                    rainCtx.strokeStyle = 'rgba(173, 216, 230, 0.6)';
-                    rainCtx.beginPath();
-                    rainCtx.moveTo(this.x, this.y);
-                    rainCtx.lineTo(this.x, this.y + this.length);
-                    rainCtx.stroke();
-                }
-            }
-            let raindrops = Array.from({ length: 100 }, () => new Raindrop());
-            function animateRain() {
-                rainCtx.clearRect(0, 0, rainCanvas.width, rainCanvas.height);
-                raindrops.forEach(raindrop => {
-                    raindrop.fall();
-                    raindrop.draw();
-                });
-                requestAnimationFrame(animateRain);
-            }
-            animateRain();
-            document.getElementById("infoButton").addEventListener("click", function() {
-                document.getElementById("infoModal").style.display = "block";
-            });
-            document.getElementById("closeModal").addEventListener("click", function() {
-                document.getElementById("infoModal").style.display = "none";
-            });
-        </script>
-    </body>
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Web Development journey.</h1>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Features</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <section class="hero">
+            <h2>Welcome to my Website</h2>
+            <p>Responsive design built with pure HTML and CSS.</p>
+            <a href="#" class="btn">Get Started</a>
+        </section>
+        
+        <section class="features">
+            <div class="feature-card">
+                <h3>Clean Design</h3>
+                <p>Modern aesthetic with attention to typography and spacing for optimal readability and user experience.</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Fully Responsive</h3>
+                <p>Looks great on any device - desktop, tablet, or mobile phone. No frameworks needed.</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>Fast Performance</h3>
+                <p>Lightweight code ensures your website loads quickly and runs smoothly for all visitors.</p>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 New Brand. All rights reserved.</p>
+    </footer>
+</body>
 </html>
